@@ -43,8 +43,8 @@ public class Client {
 
         System.out.println("Добро пожаловать! \nИ помните, что в конце каждой команды должен стоять символ \";\".\n" +
                 "Чтобы получить справку по командам, введите команду help.\n");
-        CommandReader reader = new CommandReader(port, receiver);
-        reader.IMMA_CHARGIN_MAH_LAZER();
+       try{ CommandReader reader = new CommandReader(port, receiver);
+        reader.InputCommand();} catch (Exception e){}
     }
 
 }

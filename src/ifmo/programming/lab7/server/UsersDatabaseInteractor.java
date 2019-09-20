@@ -11,9 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
-import static ifmo.programming.lab7.Utilities.colorize;
 import ifmo.programming.lab7.Message;
 
 public class UsersDatabaseInteractor {
@@ -57,20 +54,20 @@ public class UsersDatabaseInteractor {
                 statement1.execute();
                 statement.execute();
 
-                return colorize("[[bright_green]]На указанный адрес электронной почты отправлен пароль.\n" +
-                        "Введите login, чтобы выполнить вход.\n [[RESET]]");
+                return "На указанный адрес электронной почты отправлен пароль.\n" +
+                        "Введите login, чтобы выполнить вход.\n ";
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
-                return colorize("[[red]]Возникла внутренняя ошибка сервера.[[reset]]");
+                return "Возникла внутренняя ошибка сервера.";
             } catch (UnsupportedEncodingException e) {
 //                e.printStackTrace();
-                return colorize("[[red]]Возникла ошибка сервера.[[reset]]");
+                return "Возникла ошибка сервера.";
             } catch (AddressException e) {
 //                e.printStackTrace();
                 return "Вы ввели некорректный e-mail.";
             } catch (MessagingException | GeneralSecurityException e) {
 //                e.printStackTrace();
-                return colorize("[[red]]Возникла внутренняя ошибка сервера.[[reset]]");
+                return "Возникла внутренняя ошибка сервера.]";
             }
         }
 
@@ -92,10 +89,10 @@ public class UsersDatabaseInteractor {
                     Message result = new Message(name + " , вход успешно выполнен.", new String[]{Integer.toString(userid), email, password});
                     return result;
                 } else {
-                    return new Message(colorize("[[RED]]Вход не выполнен: неверная пара email/пароль.[[RESET]]"));
+                    return new Message("Вход не выполнен: неверная пара email/пароль.");
                 }
             }catch (UnsupportedEncodingException e){
-                return new Message(colorize( "[[red]]Возникла внутренняя ошибка сервера.[[reset]]"));
+                return new Message("Возникла внутренняя ошибка сервера.");
             } catch (GeneralSecurityException e) {
                 return new Message("Вход не выполнен: возникла внутренняя ошибка сервера.");
             } catch (SQLException e) {

@@ -10,7 +10,7 @@ public class RegisterHelper {
     static byte[] hashPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException/*, GeneralSecurityException*/ {
 
         byte[] pswdBytes = password.getBytes("UTF-8");
-        java.security.MessageDigest digest = MessageDigest.getInstance("MD5");
+        java.security.MessageDigest digest = MessageDigest.getInstance("SHA-224");
         digest.reset();
         byte[] array = digest.digest(pswdBytes);
 

@@ -49,149 +49,98 @@ public class ServerConfig {
      */
     static ServerConfig fromFile(String filename) throws IOException, JSONParseException, NoSuchElementException, IllegalArgumentException, IllegalStateException {
         ServerConfig result = new ServerConfig();
-
-        String configContent = FileLoader.getFileContent(filename);
-
-        JSONObject object = JSONParser.parse(configContent).toObject(
-                "Файл должен содержать объект в формате JSON"
-        );
-
-        // Getting entities
-        JSONEntity portEntity = object.getItemNotNull(
-                "port",
-                "Порт не указан, укажите его в параметре 'port'"
-        );
-
-        JSONEntity databaseHostEntity = object.getItemNotNull(
-                "db_host",
-                "Хост базы данных не указан, укажите его в параметре 'db_host'"
-        );
-        JSONEntity databasePortEntity = object.getItemNotNull(
-                "db_port",
-                "Порт базы данных не указан, укажите его в параметре 'db_port'"
-        );
-
-        JSONEntity databaseNameEntity = object.getItemNotNull(
-                "db_name",
-                "Имя базы данных не указано, укажите его в параметре 'db_name'"
-        );
-
-        JSONEntity databaseUserEntity = object.getItemNotNull(
-                "db_user",
-                "Имя пользователя базы данных не указано, укажите его в параметре 'db_user'"
-        );
-        JSONEntity databasePasswordEntity = object.getItemNotNull(
-                "db_password",
-                "Пароль базы данных не указан, укажите его в параметре 'db_password'. " +
-                        "Если пароль не требуется для входа, укажите пустую строку."
-        );
-
-        JSONEntity jdbcDriverEntity = object.getItemNotNull(
-                "jdbc_driver",
-                "Драйвер базы данных не указан, укажите его в параметре 'jdbc_driver'"
-        );
-        JSONEntity jdbcLangProtocolEntity = object.getItemNotNull(
-                "jdbc_lang_protocol",
-                "Протокол языка базы данных не указан, укажите его в параметре 'jdbc_lang_protocol'"
-        );
-
-        JSONEntity smtpHostEntity = object.getItemNotNull(
-                "smtp_host",
-                "Хост SMTP не указан, укажите его в параметре 'smtp_host'"
-        );
-        JSONEntity smtpPortEntity = object.getItemNotNull(
-                "smtp_port",
-                "Порт SMTP не указан, укажите его в параметре 'smtp_port'"
-        );
-        JSONEntity smtpSSLEnabledEntity = object.getItemNotNull(
-                "smtp_ssl_enabled",
-                "Флаг режима SSL не указан, укажите его в параметре 'smtp_ssl_enabled'"
-        );
-
-        JSONEntity mailUsernameEntity = object.getItemNotNull(
-                "mail_username",
-                "Имя пользователя электронной почты не указано, укажите его в параметре 'mail_username'"
-        );
-        JSONEntity mailPasswordEntity = object.getItemNotNull(
-                "mail_password",
-                "Пароль электронной почты не указан, укажите его в параметре 'mail_password'"
-        );
-
-        JSONEntity emailFromEntity = object.getItemNotNull(
-                "email_from",
-                "Отправитель писем не указан, укажите его в параметре 'email_from'"
-        );
+//
+//        String configContent = FileLoader.getFileContent(filename);
+//
+//        JSONObject object = JSONParser.parse(configContent).toObject(
+//                "Файл должен содержать объект в формате JSON"
+//        );
+//
+//        // Getting entities
+//        JSONEntity portEntity = object.getItemNotNull(
+//                "port",
+//                "Порт не указан, укажите его в параметре 'port'"
+//        );
+//
+//        JSONEntity databaseHostEntity = object.getItemNotNull(
+//                "db_host",
+//                "Хост базы данных не указан, укажите его в параметре 'db_host'"
+//        );
+//        JSONEntity databasePortEntity = object.getItemNotNull(
+//                "db_port",
+//                "Порт базы данных не указан, укажите его в параметре 'db_port'"
+//        );
+//
+//        JSONEntity databaseNameEntity = object.getItemNotNull(
+//                "db_name",
+//                "Имя базы данных не указано, укажите его в параметре 'db_name'"
+//        );
+//
+//        JSONEntity databaseUserEntity = object.getItemNotNull(
+//                "db_user",
+//                "Имя пользователя базы данных не указано, укажите его в параметре 'db_user'"
+//        );
+//        JSONEntity databasePasswordEntity = object.getItemNotNull(
+//                "db_password",
+//                "Пароль базы данных не указан, укажите его в параметре 'db_password'. " +
+//                        "Если пароль не требуется для входа, укажите пустую строку."
+//        );
+//
+//        JSONEntity jdbcDriverEntity = object.getItemNotNull(
+//                "jdbc_driver",
+//                "Драйвер базы данных не указан, укажите его в параметре 'jdbc_driver'"
+//        );
+//        JSONEntity jdbcLangProtocolEntity = object.getItemNotNull(
+//                "jdbc_lang_protocol",
+//                "Протокол языка базы данных не указан, укажите его в параметре 'jdbc_lang_protocol'"
+//        );
+//
+//        JSONEntity smtpHostEntity = object.getItemNotNull(
+//                "smtp_host",
+//                "Хост SMTP не указан, укажите его в параметре 'smtp_host'"
+//        );
+//        JSONEntity smtpPortEntity = object.getItemNotNull(
+//                "smtp_port",
+//                "Порт SMTP не указан, укажите его в параметре 'smtp_port'"
+//        );
+//        JSONEntity smtpSSLEnabledEntity = object.getItemNotNull(
+//                "smtp_ssl_enabled",
+//                "Флаг режима SSL не указан, укажите его в параметре 'smtp_ssl_enabled'"
+//        );
+//
+//        JSONEntity mailUsernameEntity = object.getItemNotNull(
+//                "mail_username",
+//                "Имя пользователя электронной почты не указано, укажите его в параметре 'mail_username'"
+//        );
+//        JSONEntity mailPasswordEntity = object.getItemNotNull(
+//                "mail_password",
+//                "Пароль электронной почты не указан, укажите его в параметре 'mail_password'"
+//        );
+//
+//        JSONEntity emailFromEntity = object.getItemNotNull(
+//                "email_from",
+//                "Отправитель писем не указан, укажите его в параметре 'email_from'"
+//        );
 
         // Extracting Java-type variables
-        int port = (int)portEntity.toNumber(
-                "Порт должен быть числом, но это " + portEntity.getTypeName() + ".\n" +
-                        "Проверьте значение параметра 'port'"
-        ).getValue();
+//
+        int port = 6666;
+        String databaseHost = "localhost";
+        int databasePort = 5432;
+        String databaseName = "studs";
+        String databaseUser = "s267649";
+        String databasePassword = "zxd300";
+        String jdbcDriver = "org.postgresql.Driver";
+        String jdbcLangProtocol = "postgresql";
+        String smtpHost = "in-v3.mailjet.com";
+        int smtpPort = 587;
+        boolean smtpSSLEnabled = false;
+        String mailUsername = "458e9d219d836497158992d00dfd6db8";
+        String mailPassword = "6cbffd368e655b4104b293bed4d6d7ea";
+        String emailFrom = "mmmlpmsw@protonmail.com";
 
-        String databaseHost = databaseHostEntity.toString(
-                "Хост базы данных должен быть строкой, но это " + databaseHostEntity.getTypeName() + ".\n" +
-                        "Проверьте значение параметра 'db_host'"
-        ).getContent();
 
-        int databasePort = (int)databasePortEntity.toNumber(
-                "Порт базы данных должен быть числом, но это " + databasePasswordEntity.getTypeName() + ".\n" +
-                        "Проверьте значение параметра 'db_port'"
-        ).getValue();
 
-        String databaseName = databaseNameEntity.toString(
-                "Имя базы данных должно быть строкой, но это " + databaseNameEntity.getTypeName() + ".\n" +
-                        "Проверьте значение параметра 'db_name'"
-        ).getContent();
-
-        String databaseUser = databaseUserEntity.toString(
-                "Имя пользователя базы данных должно быть строкой, но это " + databaseUserEntity.getTypeName() + ".\n" +
-                        "Проверьте значение параметра 'db_user'"
-        ).getContent();
-
-        String databasePassword = databasePasswordEntity.toString(
-                "Пароль пользователя базы данных должен быть строкой, но это " + databasePasswordEntity.getTypeName() + ".\n" +
-                        "Проверьте значение парамтра 'db_password'"
-        ).getContent();
-
-        String jdbcDriver = jdbcDriverEntity.toString(
-                "Драйвер базы данных должен быть строкой, но это " + jdbcDriverEntity.getTypeName() + ".\n" +
-                        "Проверье значение параметра 'jdbc_driver'"
-        ).getContent();
-
-        String jdbcLangProtocol = jdbcLangProtocolEntity.toString(
-                "Язык протокола базы данных должен быть строкой, но это " + jdbcLangProtocolEntity.getTypeName() + ".\n" +
-                        "Проверье значение параметра 'jdbc_lang_protocol'"
-        ).getContent();
-
-        String smtpHost = smtpHostEntity.toString(
-                "Хост SMTP должен быть строкой, но это " + smtpHostEntity.getTypeName() + "\n" +
-                        "Проверьте значение параметра 'smtp_host'"
-        ).getContent();
-
-        int smtpPort = (int)smtpPortEntity.toNumber(
-                "Порт SMTP должен быть числом, но это " + smtpPortEntity.getTypeName() + "\n" +
-                        "Проверьте значение параметра 'smtp_port'"
-        ).getValue();
-
-        boolean smtpSSLEnabled = smtpSSLEnabledEntity.toBoolean(
-                "Флаг режиме SSL должен быть логическим типом, но это " + smtpSSLEnabledEntity.getTypeName() + "\n" +
-                        "Проверьте значение параметра 'smtp_ssl_enabled"
-        ).getValue();
-
-        String mailUsername = mailUsernameEntity.toString(
-                "Имя пользователя электронной почты должно быть строкой, но это " + mailUsernameEntity.getTypeName() + "\n" +
-                        "Проверьте значение параметра 'mail_username'"
-        ).getContent();
-
-        String mailPassword = mailPasswordEntity.toString(
-                "Пароль электронной почты должен быть строкой, но это " + mailPasswordEntity.getTypeName() + "\n" +
-                        "Проверьте значение параметра 'mail_password'"
-        ).getContent();
-
-        String emailFrom = emailFromEntity.toString(
-                "Отправитель писем должен быть строкой, но это " + emailFromEntity.getTypeName() + "\n" +
-                        "Проверьте значение параметра 'email_from'"
-        ).getContent();
 
         // Setting variables
         result.setPort(port);

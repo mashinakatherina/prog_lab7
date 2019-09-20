@@ -33,8 +33,8 @@ public class CommandReader {
         this.receiver = receiver;
     }
 
-    // TODO: Нормально назвать функцию
-    void IMMA_CHARGIN_MAH_LAZER() {
+
+    void InputCommand() {
         System.out.print("Введите команду >>> ");
         String command;
         try {
@@ -79,7 +79,7 @@ public class CommandReader {
             case "remove":
             case "remove_greater":
             case "remove_lower":
-                doWithRoomArgument(name, arg);
+                doWithHumanArgument(name, arg);
                 return;
 
             case "register":
@@ -108,7 +108,7 @@ public class CommandReader {
             case "info":
             case "show":
             default:
-                doWithRoomArgument(name, null);
+                doWithHumanArgument(name, null);
         }
 
 
@@ -137,15 +137,15 @@ public class CommandReader {
 
     /**
      * Выполняет команду, аргумент которой
-     * является json-представлением экземпляра класса Room
-     * @param name имя команжы
+     * является json-представлением экземпляра класса Human
+     * @param name имя
      * @param arg аргумент команды
      */
-    private void doWithRoomArgument(String name, String arg) {
+    private void doWithHumanArgument(String name, String arg) {
             Message message = new Message(name, null);
             if (arg != null)
                 try {
-                    message.setAttachment(RoomFactory.makeRoomFromJSON(arg));
+                    message.setAttachment(HumanFactory.makeHumanFromJSON(arg));
                     message.setUserid(id);
                     message.setLogin(login);
                     message.setPassword(password);
@@ -170,7 +170,7 @@ public class CommandReader {
 
     private void doRegister() {
         try {
-            System.out.println(colorize("[[BLUE]]Регистрация нового пользователя[[RESET]]"));
+            System.out.println("Регистрация нового пользователя");
             System.out.println("Введите 'cancel', чтобы выйти");
 
             String name, email;
@@ -179,14 +179,14 @@ public class CommandReader {
                 System.out.println("Ваше имя не должно быть короче двух символов");
             if (name.equals("cancel")) {
                 System.out.println("Регистрация отменена.");
-                IMMA_CHARGIN_MAH_LAZER();
+                InputCommand();
             }
 
             while ((email = AuthorizeHelper.enter("Введите e-mail: ")).length() == 0 || !Utilities.isValidEmailAddress(email) && !email.equals("cancel"))
                 System.out.println("Введите корректный e-mail.");
             if (email.equals("cancel")) {
                 System.out.println("Регистрация отменена.");
-                IMMA_CHARGIN_MAH_LAZER();
+                InputCommand();
             }
 
             Message message = new Message("register", new StringEntity().set(new String[] {name, email}));
@@ -206,12 +206,12 @@ public class CommandReader {
             email = AuthorizeHelper.enter("Email: ");
             if (email.equals("cancel")){
                 System.out.println("Вход отменён");
-                IMMA_CHARGIN_MAH_LAZER();
+                InputCommand();
             }
             password = AuthorizeHelper.enter("Пароль: ");
             if (password.equals("cancel")) {
                 System.out.println("Вход отменён");
-                IMMA_CHARGIN_MAH_LAZER();
+                InputCommand();
             }
 
             Message message = new Message("login", new StringEntity().set(new String[] {email, password}));
@@ -237,7 +237,7 @@ public class CommandReader {
                 @Override
                 public void onError(String message) {
                     System.out.println("Не получилось отправить запрос: " + message);
-                    IMMA_CHARGIN_MAH_LAZER();
+                    InputCommand();
                 }
             });
         } catch (IOException e) {
@@ -264,7 +264,7 @@ public class CommandReader {
                         Thread.sleep(50);
                         outer.interrupt();
                     } catch (InterruptedException ignored) {
-                        IMMA_CHARGIN_MAH_LAZER();
+                        InputCommand();
                     }
 
                 } catch (IOException | ClassNotFoundException e) {}
@@ -283,7 +283,7 @@ public class CommandReader {
             System.out.println("Сервер ничего не ответил");
         } catch (InterruptedException ignored) {
         } finally {
-            IMMA_CHARGIN_MAH_LAZER();
+            InputCommand();
         }
     }
 

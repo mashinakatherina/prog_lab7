@@ -5,10 +5,10 @@
     {
       "x": 10,
       "y": 13,
-      "width": 5,
-      "name": "хрущевка",
+      "age": 5,
+      "name": "me",
       "height": 10,
-      "shelf":
+      "skill":
         {
           "thingcount": 1,
           "name": "flowers"
@@ -18,28 +18,14 @@
     {
       "x": 11,
       "y": 11,
-      "width": 6,
-      "name": "брежневка",
+      "age": 6,
+      "name": "you",
       "height": 12,
-      "shelf":
+      "skill":
         {
           "thingcount": 2,
           "name": "flowers"
         }
-
-    },
-
-    {
-      "x": 11,
-      "y": 11,
-      "width": 6,
-      "name": "сталинка",
-      "height": 12,
-      "shelf":
-      {
-        "thingcount": 2,
-        "name": "flowers"
-      }
 
     }
 

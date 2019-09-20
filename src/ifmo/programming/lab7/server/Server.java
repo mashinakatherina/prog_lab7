@@ -129,9 +129,9 @@ public class Server {
     private static void initTables() {
         try {
             Statement statement = connection.createStatement();
-            statement.execute("create table if not exists rooms " +
-                    "(id serial primary key not null, name text, height integer, width integer, x integer, y integer," +
-                    "creationdate timestamp, thingcount integer, shelfname text, user_id integer)"
+            statement.execute("create table if not exists humans " +
+                    "(id serial primary key not null, name text, height integer, age integer, x integer, y integer," +
+                    "creationdate timestamp, thingcount integer, skillname text, user_id integer)"
             );
 
             statement.execute("create table if not exists users (" +

@@ -1,9 +1,9 @@
 package ifmo.programming.lab7.server;
 
+import ifmo.programming.lab7.client.Human;
 import ifmo.programming.lab7.transmitter.SenderAdapter;
 import ifmo.programming.lab7.Message;
 import ifmo.programming.lab7.Utils.StringEntity;
-import ifmo.programming.lab7.client.Room;
 import ifmo.programming.lab7.transmitter.Sender;
 
 import java.io.FileNotFoundException;
@@ -46,13 +46,13 @@ class Resolver implements Runnable {
         switch (message.getText()) {
 
             case "help":
-                return m(RoomDatabaseInteractor.getHelp());
+                return m(HumanDatabaseInteractor.getHelp());
 
             case "info":
-                return m(RoomDatabaseInteractor.getInfo(connection));
+                return m(HumanDatabaseInteractor.getInfo(connection));
 
             case "show":
-                return m(RoomDatabaseInteractor.makeShow(connection));
+                return m(HumanDatabaseInteractor.makeShow(connection));
 
             case "load":
                 if (!message.hasAttachment()) {
@@ -61,10 +61,10 @@ class Resolver implements Runnable {
                 }
                 try {
                     if (!(message.getAttachment() instanceof StringEntity)) {
-                        return m("Клиент отправил запрос в неверном формате : аргумент сообщения должен быть строкой.");
+                        return m("Клиент отправил запрос в неверном формате : аргумент сообщения должен быть строкой. ");
                     }
-                    ArrayList<Room> rooms = JSONParse.getRoomsFromJSON(FileLoader.getFileContent(((StringEntity) message.getAttachment()).getString()));
-                    return m(RoomDatabaseInteractor.makeImport(rooms, connection, message.getUserid(), message.getLogin(), message.getPassword()));
+                    ArrayList<Human> humans = JSONParse.getHumansFromJSON(FileLoader.getFileContent(((StringEntity) message.getAttachment()).getString()));
+                    return m(HumanDatabaseInteractor.makeImport(humans, connection, message.getUserid(), message.getLogin(), message.getPassword()));
                 } catch (AccessDeniedException e) {
                     return m("Ошибка: нет доступа для чтения.");
                 } catch (FileNotFoundException e) {
@@ -85,8 +85,8 @@ class Resolver implements Runnable {
                     if (!(message.getAttachment() instanceof StringEntity)) {
                         return m("Клиент отправил запрос в неверном формате : аргумент сообщения должен быть строкой.");
                     }
-                    ArrayList<Room> rooms = JSONParse.getRoomsFromJSON(((StringEntity) message.getAttachment()).getString());
-                    return m(RoomDatabaseInteractor.makeImport(rooms, connection, message.getUserid(), message.getLogin(), message.getPassword()));
+                    ArrayList<Human> humans = JSONParse.getHumansFromJSON(((StringEntity) message.getAttachment()).getString());
+                    return m(HumanDatabaseInteractor.makeImport(humans, connection, message.getUserid(), message.getLogin(), message.getPassword()));
                 } catch (AccessDeniedException e) {
                     return m("Ошибка: нет доступа для чтения.");
                 } catch (FileNotFoundException e) {
@@ -94,7 +94,6 @@ class Resolver implements Runnable {
                 } catch (IOException e) {
                     return m("Ошибка чтения/записи.");
                 } catch (Exception e) {
-                    e.printStackTrace();
                     return m("Возникла ошибка.");
                 }
 
@@ -104,14 +103,14 @@ class Resolver implements Runnable {
                         return m("Нельзя удалить объект из коллекции: клиент отправил данные в неверном формате. " +
                                 "Введите help для получения справки.");
                     }
-                    if (!(message.getAttachment() instanceof Room)) {
+                    if (!(message.getAttachment() instanceof Human)) {
                         return m("Клиент отправил данные в неверном формате : аргумент должен быть сериализованным объектом.");
                     }
-                    Room room = (Room)message.getAttachment();
-                    return m(RoomDatabaseInteractor.removeLowerThanRoom(room, connection, message.getUserid(), message.getLogin(), message.getPassword()));
+                    Human human = (Human)message.getAttachment();
+                    return m(HumanDatabaseInteractor.removeLowerThanHuman(human, connection, message.getUserid(), message.getLogin(), message.getPassword()));
 
                 } catch (Exception e) {
-                    return m("Не получилось удалить комнату: " + e.getMessage());
+                    return m("Не получилось удалить: " + e.getMessage());
                 }
 
             case "remove_greater":
@@ -120,14 +119,14 @@ class Resolver implements Runnable {
                         return m("Нельзя удалить объект из коллекции: клиент отправил данные в неверном формате. " +
                                 "Введите help для получения справки.");
                     }
-                    if (!(message.getAttachment() instanceof Room)) {
+                    if (!(message.getAttachment() instanceof Human)) {
                         return m("Клиент отправил данные в неверном формате : аргумент должен быть сериализованным объектом.");
                     }
-                    Room room = (Room)message.getAttachment();
-                    return m(RoomDatabaseInteractor.removeGreaterThanRoom(room, connection, message.getUserid(), message.getLogin(), message.getPassword()));
+                    Human human = (Human)message.getAttachment();
+                    return m(HumanDatabaseInteractor.removeGreaterThanHuman(human, connection, message.getUserid(), message.getLogin(), message.getPassword()));
 
                 } catch (Exception e) {
-                    return m("Не получилось удалить комнату: " + e.getMessage());
+                    return m("Не получилось удалить: " + e.getMessage());
                 }
 
             case "remove":
@@ -136,14 +135,14 @@ class Resolver implements Runnable {
                         return m("Нельзя добавить объект в коллекцию: клиент отправил данные в неверном формате. " +
                                 "Введите help для получения справки.");
                     }
-                    if (!(message.getAttachment() instanceof Room)) {
+                    if (!(message.getAttachment() instanceof Human)) {
                         return m("Клиент отправил данные в неверном формате : аргумент должен быть сериализованным объектом.");
                     }
-                    Room room = (Room)message.getAttachment();
-                    return m(RoomDatabaseInteractor.removeRoom(room, connection, message.getUserid(), message.getLogin(), message.getPassword()));
+                    Human human = (Human)message.getAttachment();
+                    return m(HumanDatabaseInteractor.removeHuman(human, connection, message.getUserid(), message.getLogin(), message.getPassword()));
 
                 } catch (Exception e) {
-                    return m("Не получилось удалить комнату: " + e.getMessage());
+                    return m("Не получилось удалить: " + e.getMessage());
                 }
 
             case "add":
@@ -151,11 +150,11 @@ class Resolver implements Runnable {
                         return m("Нельзя добавить объект в коллекцию: клиент отправил данные в неверном формате. " +
                                 "Введите help для получения справки.");
                     }
-                    if (!(message.getAttachment() instanceof Room)) {
+                    if (!(message.getAttachment() instanceof Human)) {
                         return m("Клиент отправил данные в неверном формате : аргумент должен быть сериализованным объектом.");
                     }
-                Room room = (Room) message.getAttachment();
-                return m(RoomDatabaseInteractor.addRoom(room, connection, message.getUserid(), message.getLogin(), message.getPassword()));
+                Human human = (Human) message.getAttachment();
+                return m(HumanDatabaseInteractor.addHuman(human, connection, message.getUserid(), message.getLogin(), message.getPassword()));
 
 
             case "register": {
